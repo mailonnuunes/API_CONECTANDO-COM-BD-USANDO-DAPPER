@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net7.0": {
+      "Dapper/2.0.151": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/7.0.10": {
         "type": "package",
         "dependencies": {
@@ -256,6 +269,24 @@
     }
   },
   "libraries": {
+    "Dapper/2.0.151": {
+      "sha512": "mMcZgx1lim0/i1Ozu+lgnBM4GwNIHpCuxV6BV2ovsEfZAXRAq4jb6RIhxGDcVjtmXMLPpdp85jHPdDjBMMwejw==",
+      "type": "package",
+      "path": "dapper/2.0.151",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Dapper.png",
+        "dapper.2.0.151.nupkg.sha512",
+        "dapper.nuspec",
+        "lib/net461/Dapper.dll",
+        "lib/net461/Dapper.xml",
+        "lib/net5.0/Dapper.dll",
+        "lib/net5.0/Dapper.xml",
+        "lib/netstandard2.0/Dapper.dll",
+        "lib/netstandard2.0/Dapper.xml"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/7.0.10": {
       "sha512": "p5LiYt1mFJdS70zyHoydahohko2pLIoXiXwANRZGYYyTXcYNQpNUOt+At+lUgGgRwta28sUKVhy2W/93j0qwhA==",
       "type": "package",
@@ -922,25 +953,26 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Dapper >= 2.0.151",
       "Microsoft.AspNetCore.OpenApi >= 7.0.10",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.Data.SqlClient >= 4.8.5"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MailonNunesAzevedo\\.nuget\\packages\\": {}
+    "C:\\Users\\mailo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MailonNunesAzevedo\\OneDrive - Webmotors S.A\\Documentos\\.Net\\API_Alura-main\\APIAlura\\APIAlura.csproj",
+      "projectUniqueName": "C:\\Users\\mailo\\OneDrive\\Documentos\\.net\\Dapper\\APIAlura\\APIAlura.csproj",
       "projectName": "APIAlura",
-      "projectPath": "C:\\Users\\MailonNunesAzevedo\\OneDrive - Webmotors S.A\\Documentos\\.Net\\API_Alura-main\\APIAlura\\APIAlura.csproj",
-      "packagesPath": "C:\\Users\\MailonNunesAzevedo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MailonNunesAzevedo\\OneDrive - Webmotors S.A\\Documentos\\.Net\\API_Alura-main\\APIAlura\\obj\\",
+      "projectPath": "C:\\Users\\mailo\\OneDrive\\Documentos\\.net\\Dapper\\APIAlura\\APIAlura.csproj",
+      "packagesPath": "C:\\Users\\mailo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mailo\\OneDrive\\Documentos\\.net\\Dapper\\APIAlura\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\MailonNunesAzevedo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mailo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -966,6 +998,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Dapper": {
+            "target": "Package",
+            "version": "[2.0.151, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[7.0.10, )"

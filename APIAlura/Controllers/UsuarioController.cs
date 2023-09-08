@@ -1,5 +1,6 @@
 ﻿
 
+using APIAlura.Dto;
 using APIAlura.Entity;
 using APIAlura.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,12 @@ namespace APIAlura.Controllers
         {
             _usuarioRepository = usuarioRepository;
         }
-
+        [HttpGet("obter-todos-com-pedidos/{id}")]
+        public IActionResult ObterTodosComPedidos([FromRoute]int id)
+        {
+            return Ok(_usuarioRepository.ObterComPedidos(id));
+        
+        }
 
         [HttpGet("Obter-todos-os-usuarios")]
         public IActionResult ChamarTodosUsuarios()
@@ -26,25 +32,28 @@ namespace APIAlura.Controllers
             return Ok(_usuarioRepository.ObterTodos());
         }
         [HttpGet("Obter-usuario-por-id/{id}")]
-        public IActionResult ChamarUsuarioID(int id)
+        public IActionResult ChamarUsuarioID([FromRoute]int id)
         {
             return Ok(_usuarioRepository.ObterPorId(id));
         }
-        [HttpPut]
-        public void CadastrarUsuario([FromBody]Usuario usuario)
+        [HttpPost]
+        public IActionResult CadastrarUsuario([FromBody]CadastrarUsuarioDto usuarioDto)
         {
-            _usuarioRepository.Cadastrar(usuario);
+            _usuarioRepository.Cadastrar(new Usuario(usuarioDto));
+            return Ok("Usuario Cadastrado com sucesso!");
 
         }
-        [HttpPost]
-        public void EditarUsuario([FromBody]Usuario usuario)
+        [HttpPut]
+        public IActionResult EditarUsuario([FromBody]AlterarUsuarioDto usuarioDto)
         {
-            _usuarioRepository.Editar(usuario);
+            _usuarioRepository.Editar(new Usuario(usuarioDto));
+            return Ok("Usuario editado com sucesso!");
         }
         [HttpDelete]
-        public void ExcluirUsuario(int id)
+        public IActionResult ExcluirUsuario(int id)
         {
             _usuarioRepository.Deletar(id);
+            return Ok("Usuario deletado com sucesso!");
         }
     }
 }

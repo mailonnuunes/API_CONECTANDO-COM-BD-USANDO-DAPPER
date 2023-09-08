@@ -2,6 +2,7 @@
 
 using APIAlura.Entity;
 using APIAlura.Interfaces;
+using Dapper;
 using System.Data.SqlClient;
 
 namespace APIAlura.Repository
@@ -14,17 +15,21 @@ namespace APIAlura.Repository
 
         public override void Cadastrar(Usuario entidade)
         {
-           
+            using var dbConnection = new SqlConnection(ConnectionString);
+            var query = "INSERT INTO Usuario (Nome) VALUES(@Nome)";
+            dbConnection.Execute(query, entidade);
         }
 
         public override void Deletar(int id)
         {
-            throw new NotImplementedException();
+            using var dbConnection = new SqlConnection(ConnectionString);
+            var query = "DELETE FROM Usuario WHERE Id = @Id";
+            dbConnection.Execute(query, new { Id = id });
         }
 
         public override void Editar(Usuario entidade)
         {
-             using (var dbConnection = new SqlConnection(ConnectionString))
+            using var dbConnection = new SqlConnection(ConnectionString);
             {
                 var query = " UPDATE Usuario Set Nome = @Nome WHERE Id = @Id";
                 dbConnection.Query(query, entidade);
@@ -33,12 +38,49 @@ namespace APIAlura.Repository
 
         public override Usuario ObterPorId(int id)
         {
-            throw new NotImplementedException();
+            using var dbConnection = new SqlConnection(ConnectionString);
+            var query = "SELECT * FROM Usuario WHERE Id = @Id";
+            return dbConnection.Query<Usuario>(query, new { Id = id }).FirstOrDefault();
         }
 
         public override IList<Usuario> ObterTodos()
         {
-            throw new NotImplementedException();
+            using var dbConnection = new SqlConnection(ConnectionString);
+            var query = "SELECT * FROM Usuario";
+            return dbConnection.Query<Usuario>(query).ToList();
+        }
+
+        public Usuario ObterComPedidos(int id)
+        {
+            using var dbConnection = new SqlConnection(ConnectionString);
+            var query = "SELECT Usuario.Id," +
+                " Usuario.Nome, " +
+                "Pedido.Id," +
+                " Pedido.NomeProduto," +
+                " Pedido.UsuarioId " +
+                 "FROM Usuario " +
+                "LEFT JOIN Pedido " +
+                "ON Usuario.Id = Pedido.UsuarioId " +
+                "WHERE Usuario.Id = @Id";
+
+            var resultado = new Dictionary<int, Usuario>();
+            var parametros = new { Id = id };
+            dbConnection.Query<Usuario, Pedido, Usuario>(query,
+            (usuario, pedido) =>
+            {
+                if (!resultado.TryGetValue(usuario.Id, out var usuarioExistente))
+                {
+                    usuarioExistente = usuario;
+                    usuarioExistente.Pedidos = new List<Pedido>();
+                    resultado.Add(usuario.Id, usuarioExistente);
+                }
+                if (pedido != null)
+                    usuarioExistente.Pedidos.Add(pedido);
+
+                return usuarioExistente;
+            }, parametros, splitOn: "Id");
+
+            return resultado.Values.FirstOrDefault();
         }
     }
 }
